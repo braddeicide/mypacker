@@ -1,0 +1,158 @@
+{
+  "provisioners": [
+    {
+      "scripts": [
+        "scripts/base.sh",
+        "scripts/vagrant.sh",
+        "scripts/ruby.sh",
+        "scripts/puppet.sh",
+        "scripts/chef.sh"
+      ],
+      "override": {
+        "vmware-iso": {
+          "execute_command": "sh '{{.Path}}'"
+        },
+        "virtualbox-iso": {
+          "execute_command": "sh '{{.Path}}'"
+        }
+      },
+      "type": "shell"
+    }
+  ],
+  "builders": [
+    {
+      "boot_wait": "30s",
+      "vboxmanage": [
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--memory",
+          "256"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--cpus",
+          "1"
+        ]
+      ],
+      "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
+      "ssh_username": "root",
+      "iso_checksum": "9b59c031a0a2c127f824449294be9a88a05624ccf179b0d1b44d714f13b68448",
+      "iso_url": "http://ftp3.usa.openbsd.org/pub/OpenBSD/5.4/amd64/install54.iso",
+      "shutdown_command": "echo '/sbin/halt -p' > shutdown.sh; sh 'shutdown.sh'",
+      "ssh_wait_timeout": "10000s",
+      "guest_os_type": "OpenBSD_64",
+      "ssh_port": 22,
+      "virtualbox_version_file": ".vbox_version",
+      "boot_command": [
+        "I<enter><wait>",
+        "us<enter><wait>",
+        "OpenBSD54-x64<enter><wait>",
+        "<enter><wait>",
+        "<enter><wait>",
+        "<wait><wait><wait><wait><wait><wait>",
+        "none<enter><wait>",
+        "done<enter><wait>",
+        "vagrant<enter><wait>",
+        "vagrant<enter><wait>",
+        "yes<enter><wait>",
+        "no<enter><wait>",
+        "no<enter><wait>",
+        "vagrant<enter><wait>",
+        "vagrant<enter><wait>",
+        "vagrant<enter><wait>",
+        "vagrant<enter><wait>",
+        "no<enter><wait>",
+        "GB<enter><wait>",
+        "<enter><wait>",
+        "<enter><wait>",
+        "W<enter><wait>",
+        "A<enter><wait>",
+        "<wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait>",
+        "cd<enter><wait>",
+        "<enter><wait>",
+        "<enter><wait>",
+        "-game*<enter><wait>",
+        "-x*<enter><wait>",
+        "done<enter><wait>",
+        "<wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait>",
+        "done<enter><wait>",
+        "<wait><wait><wait><wait><wait><wait><wait>",
+        "yes<enter><wait><wait>",
+        "<wait><wait><wait><wait><wait><wait><wait>",
+        "reboot<enter><wait>",
+        "<wait><wait><wait><wait><wait><wait><wait>"
+      ],
+      "type": "virtualbox-iso",
+      "iso_checksum_type": "sha256",
+      "ssh_password": "vagrant",
+      "disk_size": 40960
+    },
+    {
+      "boot_wait": "30s",
+      "ssh_username": "root",
+      "iso_checksum": "9b59c031a0a2c127f824449294be9a88a05624ccf179b0d1b44d714f13b68448",
+      "vmx_data": {
+        "numvcpus": "1",
+        "memsize": "256",
+        "cpuid.coresPerSocket": "1"
+      },
+      "iso_url": "http://ftp3.usa.openbsd.org/pub/OpenBSD/5.4/amd64/install54.iso",
+      "shutdown_command": "echo '/sbin/halt -p' > shutdown.sh; sh 'shutdown.sh'",
+      "ssh_wait_timeout": "10000s",
+      "guest_os_type": "other-64",
+      "ssh_port": 22,
+      "boot_command": [
+        "I<enter><wait>",
+        "us<enter><wait>",
+        "OpenBSD54-x64<enter><wait>",
+        "<enter><wait>",
+        "<enter><wait>",
+        "<wait><wait><wait><wait><wait><wait>",
+        "none<enter><wait>",
+        "done<enter><wait>",
+        "vagrant<enter><wait>",
+        "vagrant<enter><wait>",
+        "yes<enter><wait>",
+        "no<enter><wait>",
+        "no<enter><wait>",
+        "no<enter><wait>",
+        "vagrant<enter><wait>",
+        "vagrant<enter><wait>",
+        "vagrant<enter><wait>",
+        "vagrant<enter><wait>",
+        "no<enter><wait>",
+        "<enter><wait>",
+        "<enter><wait>",
+        "<enter><wait>",
+        "W<enter><wait>",
+        "A<enter><wait>",
+        "<wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait>",
+        "cd<enter><wait>",
+        "<enter><wait>",
+        "<enter><wait>",
+        "-game*<enter><wait>",
+        "-x*<enter><wait>",
+        "done<enter><wait>",
+        "<wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait>",
+        "done<enter><wait>",
+        "<wait><wait><wait><wait><wait><wait><wait>",
+        "yes<enter><wait><wait>",
+        "<wait><wait><wait><wait><wait><wait><wait>",
+        "reboot<enter><wait>",
+        "<wait><wait><wait><wait><wait><wait><wait>"
+      ],
+      "type": "vmware-iso",
+      "iso_checksum_type": "sha256",
+      "ssh_password": "vagrant",
+      "disk_size": 40960
+    }
+  ],
+  "post-processors": [
+    {
+      "output": "output/openbsd-5.4-amd64-{{.Provider}}.box",
+      "type": "vagrant"
+    }
+  ]
+}
