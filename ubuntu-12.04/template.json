@@ -30,7 +30,7 @@
   "post-processors": [
     {
       "type": "vagrant",
-      "output": "output/ubuntu-122-04-x64-{{.Provider}}.box"
+      "output": "output/ubuntu-12-04-x64-{{.Provider}}.box"
       }
   ],
   "builders": [
