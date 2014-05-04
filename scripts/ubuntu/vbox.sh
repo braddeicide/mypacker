@@ -18,3 +18,6 @@ umount /mnt
 # Cleanup
 rm $VBOX_ISO
 
+# https://www.virtualbox.org/ticket/12879
+echo "ln -s /opt/VBoxGuestAdditions-4.3.10/lib/VBoxGuestAdditions /usr/lib/VBoxGuestAdditions"
+ln -s /opt/VBoxGuestAdditions-4.3.10/lib/VBoxGuestAdditions /usr/lib/VBoxGuestAdditions

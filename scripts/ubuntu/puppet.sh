@@ -1,5 +1,6 @@
-wget https://apt.puppetlabs.com/puppetlabs-release-trusty.deb
-dpkg -i puppetlabs-release-trusty.deb
-rm -f puppetlabs-release-trusty.deb
+wget https://apt.puppetlabs.com/puppetlabs-release-`lsb_release -cs`.deb
+dpkg -i puppetlabs-release-`lsb_release -cs`.deb
+rm -f puppetlabs-release-`lsb_release -cs`.deb
 apt-get update
 apt-get -y install puppet puppetmaster
+gem install hiera-eyaml

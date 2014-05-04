@@ -11,4 +11,6 @@ else
   pkg_add -r puppet 
 fi
 
+gem install hiera-eyaml
+
 exit
