@@ -11,6 +11,10 @@ Or use the included python script which allows controlled parallel builds
 usage: repopulate_vagrant.py [-h] [-t TYPE] [-p PARALLEL] [-s] [-l]
 
 '-t', '--type',      help='virtualbox, vmware, all', default='virtualbox'
+
 '-p', '--parallel',  help='1 .. n'
+
 '-s', '--silent',    help='1 .. n'
+
 '-l', '--logtofile', help='will create machine.log'
+
