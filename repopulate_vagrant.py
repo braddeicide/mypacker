@@ -1,20 +1,42 @@
-#!/usr/bin/python
-
 import os
+import fnmatch
 import argparse
 import subprocess
-from subprocess import call
-options  = "";
+import threading
 
+
+class Threadedrun(threading.Thread):
+    def __init__(self, command, stdoutval, args):
+        threading.Thread.__init__(self)
+        self.command = command
+        self.stdoutval = stdoutval
+        self.args = args
+
+    def run(self):
+        semaphore.acquire()
+
+        if not self.args.silent:
+                print "Running: ",self.command.split(),self.stdoutval
+
+        p = subprocess.Popen(self.command.split(), stdout=self.stdoutval)
+        # this blocks, means you can read output however it is slow over many builds
+        while p.poll() is None:
+            if not self.args.silent and not self.args.logtofile:
+                print p.stdout.readline().rstrip()
+        semaphore.release()
+        
+options, parallel, stdoutval = "", "", "";
+             
 parser = argparse.ArgumentParser()
-parser.add_argument('-t', '--type', help='virtualbox, vmware, all')
-parser.add_argument('-p', '--parallel', help='1 .. n')
-parser.add_argument('-s', '--silent', help='1 .. n')
-args = parser.parse_args()
+parser.add_argument('-t', '--type', help='virtualbox, vmware, all', default='virtualbox')
+parser.add_argument('-p', '--parallel', help='1 .. n', default=1)
+parser.add_argument('-s', '--silent', help='1 .. n', action="store_true")
+parser.add_argument('-l', '--logtofile', help='will create machine.log', action="store_true")
+args = parser.parse_args() 
+parallel = int(args.parallel)
 
-#def parallelism():
-#    if processes < args.parallel:
-#        return -1
+# Used to ensure we're only executing "parallel" builds concurrently.
+semaphore = threading.BoundedSemaphore(parallel)
 
 # directories with template.json
 dirs = [root for root,dir,file in os.walk(".") if fnmatch.filter(file,"template.json")]
@@ -27,17 +49,19 @@ elif args.type == 'vmware':
 
 # run packer
 for machine in dirs:
-    command = '/home/brad/bin/packer build '+options+machine+"/template.json"
-    p = subprocess.Popen(command.split(), stdout=subprocess.PIPE)
-    while p.poll() is None:
-        if not args.silent:
-            print p.stdout.readline().rstrip()
+    logfile = open(machine+'.log', 'w')
+    if args.logtofile:
+        stdoutval = logfile
+    else:
+        stdoutval = subprocess.PIPE
+
+    command = '/usr/local/bin/packer build '+options+machine+"/template.json"
+    threadedrun = Threadedrun(command, stdoutval,args)
+    threadedrun.start()
 
 # vagrant import
 boxes = [name for name in os.listdir('output/')]
 for machine in boxes:
-    p = subprocess.Popen(['/usr/bin/vagrant','box','add','-f',machine,"output/"+machine], stdout=subprocess.PIPE)
-    while p.poll() is None:
-        if not args.silent:
-            print p.stdout.readline().rstrip()
-
+    command = '/usr/bin/vagrant','box','add','-f',machine,"output/"+machine
+    threadedrun = Threadedrun(command, stdoutval,args)
+    threadedrun.start()
