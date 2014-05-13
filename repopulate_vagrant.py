@@ -4,7 +4,6 @@ import argparse
 import subprocess
 import threading
 
-
 class Threadedrun(threading.Thread):
     def __init__(self, command, stdoutval, args):
         threading.Thread.__init__(self)
@@ -37,6 +36,7 @@ parallel = int(args.parallel)
 
 # Used to ensure we're only executing "parallel" builds concurrently.
 semaphore = threading.BoundedSemaphore(parallel)
+global semaphore
 
 # directories with template.json
 dirs = [root for root,dir,file in os.walk(".") if fnmatch.filter(file,"template.json")]
