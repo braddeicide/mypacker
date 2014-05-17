@@ -23,7 +23,14 @@ class Threadedrun(threading.Thread):
             if not self.args.silent and not self.args.logtofile:
                 print p.stdout.readline().rstrip()
         semaphore.release()
-        
+
+def which(file):
+    for path in os.environ["PATH"].split(":"):
+        if os.path.exists(path + "/" + file):
+                return path + "/" + file
+
+    return None
+
 options, parallel, stdoutval = "", "", "";
              
 parser = argparse.ArgumentParser()
@@ -33,6 +40,10 @@ parser.add_argument('-s', '--silent', help='1 .. n', action="store_true")
 parser.add_argument('-l', '--logtofile', help='will create machine.log', action="store_true")
 args = parser.parse_args() 
 parallel = int(args.parallel)
+
+# Locate exe without using shell=True
+packer = which("packer")
+vagrant = which("vagrant")
 
 # Used to ensure we're only executing "parallel" builds concurrently.
 semaphore = threading.BoundedSemaphore(parallel)
@@ -49,19 +60,18 @@ elif args.type == 'vmware':
 
 # run packer
 for machine in dirs:
-    logfile = open(machine+'.log', 'w')
     if args.logtofile:
-        stdoutval = logfile
+        stdoutval = open(machine+'.log', 'w') 
     else:
         stdoutval = subprocess.PIPE
 
-    command = '/usr/local/bin/packer build '+options+machine+"/template.json"
+    command = packer +' build '+options+machine+"/template.json"
     threadedrun = Threadedrun(command, stdoutval,args)
     threadedrun.start()
 
 # vagrant import
 boxes = [name for name in os.listdir('output/')]
 for machine in boxes:
-    command = '/usr/bin/vagrant','box','add','-f',machine,"output/"+machine
+    command = vagrant + ' ','box','add','-f',machine,"output/"+machine
     threadedrun = Threadedrun(command, stdoutval,args)
     threadedrun.start()
