@@ -18,6 +18,7 @@
   "builders": [
     {
       "type": "virtualbox-iso",
+      "headless": true,
       "boot_command": [
         "<esc><wait>",
         "load geom_mbr<wait>",

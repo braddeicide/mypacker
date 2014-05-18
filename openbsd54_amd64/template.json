@@ -38,6 +38,8 @@
       ],
       "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
       "ssh_username": "root",
+      "output_directory": "packer-openbsd54-amd64-virtualbox",
+      "vm_name": "packer-openbsd54-amd64",
       "iso_checksum": "9b59c031a0a2c127f824449294be9a88a05624ccf179b0d1b44d714f13b68448",
       "iso_url": "http://mirror.internode.on.net/pub/OpenBSD/5.4/amd64/install54.iso",
       "shutdown_command": "echo '/sbin/halt -p' > shutdown.sh; sh 'shutdown.sh'",
@@ -85,6 +87,7 @@
         "<wait><wait><wait><wait><wait><wait><wait>"
       ],
       "type": "virtualbox-iso",
+      "headless": true,
       "iso_checksum_type": "sha256",
       "ssh_password": "vagrant",
       "disk_size": 40960
@@ -146,6 +149,8 @@
       "type": "vmware-iso",
       "iso_checksum_type": "sha256",
       "ssh_password": "vagrant",
+      "output_directory": "packer-openbsd54-amd64-vmware",
+      "vm_name": "packer-openbsd54-amd64",
       "disk_size": 40960
     }
   ],

@@ -10,7 +10,7 @@
             "scripts/ubuntu/base.sh",
             "scripts/ubuntu/vagrant.sh",
             "scripts/ubuntu/vbox.sh",
-            "scripts/ubuntu/puppet.sh",
+            "scripts/ubuntu/puppet12.sh",
             "scripts/ubuntu/cleanup.sh",
             "scripts/ubuntu/zerodisk.sh"
           ]
@@ -36,6 +36,7 @@
   "builders": [
     {
       "type": "virtualbox-iso",
+      "headless": true,
       "boot_command": [
         "<esc><wait>",
         "<esc><wait>",
@@ -69,6 +70,8 @@
       "iso_url": "http://mirror.internode.on.net/pub/ubuntu/releases/12.04.4/ubuntu-12.04.4-server-amd64.iso",
       "ssh_username": "vagrant",
       "ssh_password": "vagrant",
+      "output_directory": "packer-ubuntu-12.04-amd64-virtualbox",
+      "vm_name": "packer-ubuntu-12.04-amd64-virtualbox",
       "ssh_port": 22,
       "ssh_wait_timeout": "10000s",
       "shutdown_command": "echo 'shutdown -P now' > /tmp/shutdown.sh; echo 'vagrant'|sudo -S sh '/tmp/shutdown.sh'",
@@ -112,6 +115,8 @@
       "iso_url": "http://mirror.internode.on.net/pub/ubuntu/releases/12.04.4/ubuntu-12.04.4-server-amd64.iso",
       "ssh_username": "vagrant",
       "ssh_password": "vagrant",
+      "output_directory": "packer-ubuntu-12.04-amd64-vmware",
+      "vm_name": "packer-ubuntu-12.04-amd64-vmware",
       "ssh_port": 22,
       "ssh_wait_timeout": "10000s",
       "shutdown_command": "echo 'shutdown -P now' > /tmp/shutdown.sh; echo 'vagrant'|sudo -S sh '/tmp/shutdown.sh'",

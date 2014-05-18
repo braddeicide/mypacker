@@ -36,6 +36,7 @@
   "builders": [
     {
       "type": "virtualbox-iso",
+      "headless": true,
       "boot_command": [
         "<esc><wait>",
         "<esc><wait>",
@@ -71,6 +72,8 @@
       "ssh_password": "vagrant",
       "ssh_port": 22,
       "ssh_wait_timeout": "10000s",
+      "output_directory": "packer-ubuntu-14.04-amd64-virtualbox",
+      "vm_name": "packer-ubuntu-14.04-amd64-virtualbox",
       "shutdown_command": "echo 'shutdown -P now' > /tmp/shutdown.sh; echo 'vagrant'|sudo -S sh '/tmp/shutdown.sh'",
       "vboxmanage": [
         [ "modifyvm", "{{.Name}}", "--memory", "2048" ],
@@ -114,6 +117,8 @@
       "ssh_password": "vagrant",
       "ssh_port": 22,
       "ssh_wait_timeout": "10000s",
+      "output_directory": "packer-ubuntu-14.04-amd64-virtualbox",
+      "vm_name": "packer-ubuntu-14.04-amd64-virtualbox",
       "shutdown_command": "echo 'shutdown -P now' > /tmp/shutdown.sh; echo 'vagrant'|sudo -S sh '/tmp/shutdown.sh'",
       "vmx_data": {
         "memsize": "2048",
