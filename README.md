@@ -21,4 +21,3 @@ usage: repopulate_vagrant.py [-h] [-t TYPE] [-p PARALLEL] [-s] [-l]
 *Caveats*
 A failed packer build leaves temporary files and packer won't run again until they're cleaned.  I'm not keen on deleting them for you.
 
-location of packer and vagrant executables are currently hardcoded. 

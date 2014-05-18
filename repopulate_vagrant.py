@@ -3,6 +3,7 @@ import fnmatch
 import argparse
 import subprocess
 import threading
+import signal
 
 class Threadedrun(threading.Thread):
     def __init__(self, command, stdoutval, args):
@@ -46,8 +47,8 @@ packer = which("packer")
 vagrant = which("vagrant")
 
 # Used to ensure we're only executing "parallel" builds concurrently.
-semaphore = threading.BoundedSemaphore(parallel)
 global semaphore
+semaphore = threading.BoundedSemaphore(parallel)
 
 # directories with template.json
 dirs = [root for root,dir,file in os.walk(".") if fnmatch.filter(file,"template.json")]
@@ -58,6 +59,7 @@ if args.type == 'virtualbox':
 elif args.type == 'vmware':
     options = '--only vmware-iso '
 
+threads = []
 # run packer
 for machine in dirs:
     if args.logtofile:
@@ -67,11 +69,17 @@ for machine in dirs:
 
     command = packer +' build '+options+machine+"/template.json"
     threadedrun = Threadedrun(command, stdoutval,args)
+    threads.append(threadedrun)
     threadedrun.start()
 
 # vagrant import
 boxes = [name for name in os.listdir('output/')]
 for machine in boxes:
-    command = vagrant + ' ','box','add','-f',machine,"output/"+machine
+    command = vagrant+' box add -f '+machine+' output/ '+machine
     threadedrun = Threadedrun(command, stdoutval,args)
+    threads.append(threadedrun)
     threadedrun.start()
+
+# Stop main thread exiting before all threads finish, only main thread catches signals and ctrl+c is nice.
+for t in threads:
+    t.join()
