@@ -27,8 +27,8 @@ class Threadedrun(threading.Thread):
 
 def which(file):
     for path in os.environ["PATH"].split(":"):
-        if os.path.exists(path + "/" + file):
-                return path + "/" + file
+        if os.path.exists(path + os.path.sep + file):
+                return path + os.path.sep + file
 
     return None
 
@@ -67,15 +67,15 @@ for machine in dirs:
     else:
         stdoutval = subprocess.PIPE
 
-    command = packer +' build '+options+machine+"/template.json"
-    threadedrun = Threadedrun(command, stdoutval,args)
-    threads.append(threadedrun)
-    threadedrun.start()
+    command = packer +' build '+options+machine+os.path.sep+"template.json"
+#    threadedrun = Threadedrun(command, stdoutval,args)
+#    threads.append(threadedrun)
+#    threadedrun.start()
 
 # vagrant import
-boxes = [name for name in os.listdir('output/')]
+boxes = [name for name in os.listdir('output')]
 for machine in boxes:
-    command = vagrant+' box add -f '+machine+' output/ '+machine
+    command = vagrant+' box add -f '+machine+' output'+os.path.sep+machine
     threadedrun = Threadedrun(command, stdoutval,args)
     threads.append(threadedrun)
     threadedrun.start()
