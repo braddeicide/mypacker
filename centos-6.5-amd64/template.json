@@ -84,5 +84,11 @@
       "output_directory": "packer-centos-6.5-amd64-vmware",
       "vm_name": "packer-centos-6.5-amd64"
     }
+  ],
+  "post-processors": [
+    {
+      "output": "output/centos-6.5-amd64-{{.Provider}}.box",
+      "type": "vagrant"
+    }
   ]
 }

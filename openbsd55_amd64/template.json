@@ -154,14 +154,20 @@
       "ssh_password": "vagrant",
       "ssh_port": 22,
       "ssh_wait_timeout": "10000s",
-      "output_directory": "packer-openbsd54-amd64-vmware",
-      "vm_name": "packer-openbsd54-amd64",
+      "output_directory": "packer-openbsd55-amd64-vmware",
+      "vm_name": "packer-openbsd55-amd64",
       "shutdown_command": "echo '/sbin/halt -p' > shutdown.sh; sh 'shutdown.sh'",
       "vmx_data": {
         "memsize": "256",
         "numvcpus": "1",
         "cpuid.coresPerSocket": "1"
       }
+    }
+  ],
+  "post-processors": [
+    {
+      "output": "output/openbsd-5.5-amd64-{{.Provider}}.box",
+      "type": "vagrant"
     }
   ]
 }
