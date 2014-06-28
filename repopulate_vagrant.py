@@ -68,9 +68,9 @@ for machine in dirs:
         stdoutval = subprocess.PIPE
 
     command = packer +' build '+options+machine+os.path.sep+"template.json"
-#    threadedrun = Threadedrun(command, stdoutval,args)
-#    threads.append(threadedrun)
-#    threadedrun.start()
+    threadedrun = Threadedrun(command, stdoutval,args)
+    threads.append(threadedrun)
+    threadedrun.start()
 
 # vagrant import
 boxes = [name for name in os.listdir('output')]
