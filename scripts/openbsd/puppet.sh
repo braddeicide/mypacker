@@ -1,4 +1,5 @@
 # Install Puppet
 . /root/.profile
-pkg_add puppet-3.2.3
+pkg_add puppet
+pkg_add ruby-puppet
 gem install hiera-eyaml

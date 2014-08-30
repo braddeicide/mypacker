@@ -1,6 +1,5 @@
 . /root/.profile
-#pkg_add ruby-1.9.3.448
-pkg_add -Iz ruby-1.9.0.000
+pkg_add ruby-1.9.3.448
 
 ln -sf /usr/local/bin/ruby19 /usr/local/bin/ruby
 ln -sf /usr/local/bin/erb19 /usr/local/bin/erb
@@ -13,5 +12,3 @@ ln -sf /usr/local/bin/testrb19 /usr/local/bin/testrb
 
 pkg_add ruby-gems
 pkg_add ruby-iconv
-
-ln -sf /usr/local/bin/gem19 /usr/local/bin/gem

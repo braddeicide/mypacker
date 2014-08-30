@@ -2,14 +2,14 @@
 echo " "
 echo " Setting PKG_PATH for users "
 echo " "
-echo " export PKG_PATH=http://ftp3.usa.openbsd.org/pub/OpenBSD/`uname -r`/packages/`arch -s`/ " >> /root/.profile
-echo " export PKG_PATH=http://ftp3.usa.openbsd.org/pub/OpenBSD/`uname -r`/packages/`arch -s`/ ">> /home/vagrant/.profile
+echo " export PKG_PATH=http://mirror.internode.on.net/pub/OpenBSD/`uname -r`/packages/`arch -s`/ " >> /root/.profile
+echo " export PKG_PATH=http://mirror.internode.on.net/pub/OpenBSD/`uname -r`/packages/`arch -s`/ ">> /home/vagrant/.profile
 
 # install wget/curl/bash/vim and its dependencies
 echo " "
 echo " Installing needed packages "
 echo " "
-export PKG_PATH=http://ftp3.usa.openbsd.org/pub/OpenBSD/`uname -r`/packages/`arch -s`/
+export PKG_PATH=http://mirror.internode.on.net/pub/OpenBSD/`uname -r`/packages/`arch -s`/
 pkg_add wget curl bash vim-7.3.850-no_x11 rsync-3.0.9p3 bzip2 ngrep
 
 # giving root & vagrant bash as shell
@@ -35,6 +35,6 @@ echo " "
 echo " Installing the ports system ! "
 echo " "
 cd /tmp
-wget http://ftp3.usa.openbsd.org/pub/OpenBSD/`uname -r`/ports.tar.gz
+wget http://mirror.internode.on.net/pub/OpenBSD/`uname -r`/ports.tar.gz
 cd /usr
 sudo tar xzf /tmp/ports.tar.gz
