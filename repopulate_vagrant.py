@@ -6,55 +6,60 @@ import threading
 import signal
 
 class Threadedrun(threading.Thread):
-    def __init__(self, command, stdoutval, args):
+    def __init__(self, _command, _stdoutval, _args):
         threading.Thread.__init__(self)
-        self.command = command
+        self.command   = command
         self.stdoutval = stdoutval
-        self.args = args
+        self.args      = args
 
     def run(self):
-        semaphore.acquire()
 
         if not self.args.silent:
-                print "Running: ",self.command.split(),self.stdoutval
+            print "Running: ",self.command.split(),self.stdoutval
 
         p = subprocess.Popen(self.command.split(), stdout=self.stdoutval)
         # this blocks, means you can read output however it is slow over many builds
         while p.poll() is None:
             if not self.args.silent and not self.args.logtofile:
                 print p.stdout.readline().rstrip()
-        semaphore.release()
 
 def which(file):
     for path in os.environ["PATH"].split(":"):
         if os.path.exists(path + os.path.sep + file):
                 return path + os.path.sep + file
-
     return None
+
+def signalHandler(signum, flag):
+    print 'Signal handler called with signal', signum
+    for t in threads:
+        t.join()
+    exit(signum)
 
 options, parallel, stdoutval = "", "", "";
              
-parser = argparse.ArgumentParser()
+parser   = argparse.ArgumentParser()
 parser.add_argument('-t', '--type', help='virtualbox, vmware, all', default='virtualbox')
 parser.add_argument('-p', '--parallel', help='1 .. n', default=1)
 parser.add_argument('-s', '--silent', help='1 .. n', action="store_true")
 parser.add_argument('-l', '--logtofile', help='will create machine.log', action="store_true")
-args = parser.parse_args() 
+args     = parser.parse_args() 
 parallel = int(args.parallel)
 
 # Locate exe without using shell=True
-packer = which("packer")
-vagrant = which("vagrant")
+packer    = which("packer")
+vagrant   = which("vagrant")
 
-# Used to ensure we're only executing "parallel" builds concurrently.
-global semaphore
-semaphore = threading.BoundedSemaphore(parallel)
+# So we can interupt builds
+if os.name == 'posix':
+  signal.signal(signal.SIGINT, signalHandler)
+if os.name == 'nt':
+  signal.signal(signal.CTRL_C_EVENT, signalHandler)
 
 # directories with template.json
 dirs = [root for root,dir,file in os.walk(".") if fnmatch.filter(file,"template.json")]
 
 # construct arguments
-if args.type == 'virtualbox':
+if args.type   == 'virtualbox':
     options = '--only virtualbox-iso '
 elif args.type == 'vmware':
     options = '--only vmware-iso '
@@ -71,14 +76,22 @@ for machine in dirs:
     threadedrun = Threadedrun(command, stdoutval,args)
     threads.append(threadedrun)
     threadedrun.start()
+    #print "RunningThreads:",len(threading.enumerate())-1," Parallel:",parallel,"\n"
+    if len(threading.enumerate())-1 >= parallel:
+        threadedrun.join()
 
 # vagrant import
+# Ensure builds are all finished
+for t in threads:
+    t.join()
 boxes = [name for name in os.listdir('output')]
 for machine in boxes:
     command = vagrant+' box add -f '+machine+' output'+os.path.sep+machine
+    # Don't need threads here, but lets use what we aleady have for stdout/logging etc.
     threadedrun = Threadedrun(command, stdoutval,args)
     threads.append(threadedrun)
     threadedrun.start()
+    threaddedrun.join()
 
 # Stop main thread exiting before all threads finish, only main thread catches signals and ctrl+c is nice.
 for t in threads:
