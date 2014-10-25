@@ -4,6 +4,7 @@ import argparse
 import subprocess
 import threading
 import signal
+import time
 
 class Threadedrun(threading.Thread):
     def __init__(self, _command, _stdoutval, _args):
@@ -73,12 +74,16 @@ for machine in dirs:
         stdoutval = subprocess.PIPE
 
     command = packer +' build '+options+machine+os.path.sep+"template.json"
-    threadedrun = Threadedrun(command, stdoutval,args)
-    threads.append(threadedrun)
-    threadedrun.start()
-    #print "RunningThreads:",len(threading.enumerate())-1," Parallel:",parallel,"\n"
-    if len(threading.enumerate())-1 >= parallel:
-        threadedrun.join()
+
+    try:
+      while (len(threading.enumerate()) >= parallel+1):
+        time.sleep(1)
+      threadedrun = Threadedrun(command, stdoutval,args)
+      threads.append(threadedrun)
+      threadedrun.start()
+    except (KeyboardInterrupt, SystemExit):
+      print '\n! Received keyboard interrupt, quitting threads.\n'
+      exit()
 
 # vagrant import
 # Ensure builds are all finished
@@ -91,7 +96,7 @@ for machine in boxes:
     threadedrun = Threadedrun(command, stdoutval,args)
     threads.append(threadedrun)
     threadedrun.start()
-    threaddedrun.join()
+    threadedrun.join()
 
 # Stop main thread exiting before all threads finish, only main thread catches signals and ctrl+c is nice.
 for t in threads:
