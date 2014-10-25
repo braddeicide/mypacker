@@ -6,8 +6,7 @@
         "openbsd55_amd64/scripts/base.sh",
         "openbsd55_amd64/scripts/vagrant.sh",
         "openbsd55_amd64/scripts/ruby.sh",
-        "openbsd55_amd64/scripts/puppet.sh",
-        "openbsd55_amd64/scripts/chef.sh"
+        "openbsd55_amd64/scripts/puppet.sh"
       ],
       "override": {
         "virtualbox-iso": {

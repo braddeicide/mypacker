@@ -5,8 +5,7 @@
         "scripts/openbsd/base.sh",
         "scripts/openbsd/vagrant.sh",
         "scripts/openbsd/ruby.sh",
-        "scripts/openbsd/puppet.sh",
-        "scripts/openbsd/chef.sh"
+        "scripts/openbsd/puppet.sh"
       ],
       "override": {
         "vmware-iso": {
