@@ -39,10 +39,12 @@ def signalHandler(signum, flag):
 options, parallel, stdoutval = "", "", "";
              
 parser   = argparse.ArgumentParser()
-parser.add_argument('-t', '--type', help='virtualbox, vmware, all', default='virtualbox')
-parser.add_argument('-p', '--parallel', help='1 .. n', default=1)
-parser.add_argument('-s', '--silent', help='1 .. n', action="store_true")
+parser.add_argument('-t', '--type',      help='virtualbox, vmware, all', default='virtualbox')
+parser.add_argument('-p', '--parallel',  help='1 .. n'                 , default=1)
+parser.add_argument('-s', '--silent',    help='1 .. n'                 , action="store_true")
 parser.add_argument('-l', '--logtofile', help='will create machine.log', action="store_true")
+parser.add_argument('-m', '--matching',  help='build machines matching', default='*')
+
 args     = parser.parse_args() 
 parallel = int(args.parallel)
 
@@ -57,7 +59,9 @@ if os.name == 'nt':
   signal.signal(signal.CTRL_C_EVENT, signalHandler)
 
 # directories with template.json
-dirs = [root for root,dir,file in os.walk(".") if fnmatch.filter(file,"template.json")]
+dirs  = [root for root,dir,file in os.walk(".") if fnmatch.filter(file,"template.json") and fnmatch.fnmatch(root,'*'+args.matching+'*')]
+
+print 'Building ', dirs
 
 # construct arguments
 if args.type   == 'virtualbox':
