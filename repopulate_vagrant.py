@@ -25,9 +25,11 @@ class Threadedrun(threading.Thread):
                 print p.stdout.readline().rstrip()
 
 def which(file):
-    for path in os.environ["PATH"].split(":"):
+    combpath = os.environ["PATH"] + ':' + args.path
+    for path in combpath.split(":"):
         if os.path.exists(path + os.path.sep + file):
                 return path + os.path.sep + file
+    print "Failed, could not find " +file+ " in path "+combpath
     return None
 
 def signalHandler(signum, flag):
@@ -39,11 +41,12 @@ def signalHandler(signum, flag):
 options, parallel, stdoutval = "", "", "";
              
 parser   = argparse.ArgumentParser()
-parser.add_argument('-t', '--type',      help='virtualbox, vmware, all', default='virtualbox')
-parser.add_argument('-p', '--parallel',  help='1 .. n'                 , default=1)
-parser.add_argument('-s', '--silent',    help='1 .. n'                 , action="store_true")
-parser.add_argument('-l', '--logtofile', help='will create machine.log', action="store_true")
-parser.add_argument('-m', '--matching',  help='build machines matching', default='*')
+parser.add_argument('-t', '--type',      help='virtualbox, vmware, all'    , default='virtualbox')
+parser.add_argument('-p', '--parallel',  help='1 .. n'                     , default=1)
+parser.add_argument('-P', '--path',      help='Directory to append to path', default='')
+parser.add_argument('-s', '--silent',    help='1 .. n'                     , action="store_true")
+parser.add_argument('-l', '--logtofile', help='will create machine.log'    , action="store_true")
+parser.add_argument('-m', '--matching',  help='build machines matching'    , default='*')
 
 args     = parser.parse_args() 
 parallel = int(args.parallel)
