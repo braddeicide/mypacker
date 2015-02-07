@@ -95,6 +95,12 @@
           "{{.Name}}",
           "--cpus",
           "1"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--natdnsproxy1",
+          "on"
         ]
       ]
     },

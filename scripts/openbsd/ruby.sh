@@ -1,6 +1,9 @@
-. /root/.profile
-#pkg_add ruby-1.9.3.448
-pkg_add -Iz ruby-1.9.0.000
+/root/.profile
+
+# "Fuzzy package addition" is broken for ruby, this means we don't have to hardcode versions.
+# pkg_add -Iz ruby-1.9.0.000
+false | pkg_add ruby 2>&1 | perl -n -e 'print `pkg_add $&` if $_ =~ /ruby-1.9[\w\.]+/'
+
 
 ln -sf /usr/local/bin/ruby19 /usr/local/bin/ruby
 ln -sf /usr/local/bin/erb19 /usr/local/bin/erb

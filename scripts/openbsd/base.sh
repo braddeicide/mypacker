@@ -10,7 +10,7 @@ echo " "
 echo " Installing needed packages "
 echo " "
 export PKG_PATH=http://mirror.internode.on.net/pub/OpenBSD/`uname -r`/packages/`arch -s`/
-pkg_add wget curl bash vim--no_x11 rsync--iconv bzip2 ngrep
+pkg_add -I wget curl bash vim--no_x11 rsync--iconv bzip2 ngrep
 
 # giving root & vagrant bash as shell
 echo " "

@@ -33,6 +33,12 @@
           "{{.Name}}",
           "--cpus",
           "1"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--natdnsproxy1",
+          "on"
         ]
       ],
       "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
