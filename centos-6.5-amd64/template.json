@@ -27,7 +27,7 @@
       "disk_size": 10140,
       "boot_wait": "10s",
       "boot_command": [
-        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks.cfg<enter><wait>"
+        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks.cfg noapic<enter><wait>"
       ],
       "type": "virtualbox-iso",
       "headless": true,
@@ -48,13 +48,13 @@
         ]
       ],
       "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
-      "iso_url": "http://mirror.internode.on.net/pub/centos/6.5/isos/x86_64/CentOS-6.5-x86_64-minimal.iso",
-      "iso_checksum": "0d9dc37b5dd4befa1c440d2174e88a87",
+      "iso_url": "http://archive.kernel.org/centos-vault/6.5/isos/x86_64/CentOS-6.5-x86_64-minimal.iso",
+      "iso_checksum": "f9d84907d77df62017944cb23cab66305e94ee6ae6c1126415b81cc5e999bdd0",
       "http_directory": "centos-6.5-amd64/http",
       "output_directory": "packer-centos-6.5-amd64-virtualbox",
       "vm_name": "packer-centos-6.5-amd64",
       "virtualbox_version_file": ".vbox_version",
-      "iso_checksum_type": "md5",
+      "iso_checksum_type": "sha256",
       "ssh_port": 22,
       "ssh_password": "veewee",
       "ssh_username": "veewee"
@@ -69,15 +69,15 @@
       "type": "vmware-iso",
       "ssh_wait_timeout": "10000s",
       "shutdown_command": "echo '/sbin/halt -h -p' > shutdown.sh; echo 'veewee'|sudo -S sh 'shutdown.sh'",
-      "iso_url": "http://mirror.internode.on.net/pub/centos/6.5/isos/x86_64/CentOS-6.5-x86_64-minimal.iso",
+      "iso_url": "http://archive.kernel.org/centos-vault/6.5/isos/x86_64/CentOS-6.5-x86_64-minimal.iso",
       "vmx_data": {
         "cpuid.coresPerSocket": "1",
         "numvcpus": "1",
         "memsize": "480"
       },
-      "iso_checksum": "0d9dc37b5dd4befa1c440d2174e88a87",
+      "iso_checksum": "f9d84907d77df62017944cb23cab66305e94ee6ae6c1126415b81cc5e999bdd0",
       "http_directory": "centos-6.5-amd64/http",
-      "iso_checksum_type": "md5",
+      "iso_checksum_type": "sha256",
       "ssh_port": 22,
       "ssh_password": "veewee",
       "ssh_username": "veewee",
