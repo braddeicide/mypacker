@@ -51,7 +51,7 @@
       "iso_url": "http://mirror.internode.on.net/pub/centos/7/isos/x86_64/CentOS-7-x86_64-Minimal-1503-01.iso",
       "iso_checksum": "7cf1ac8da13f54d6be41e3ccf228dc5bb35792f515642755ff4780d5714d4278",
       "http_directory": "centos-7.1-amd64/http",
-      "output_directory": "packer-centos-7-amd64-virtualbox",
+      "output_directory": "packer-centos-7.1-amd64-virtualbox",
       "vm_name": "packer-centos-7-amd64",
       "virtualbox_version_file": ".vbox_version",
       "iso_checksum_type": "sha256",
