@@ -14,7 +14,7 @@ nodes = [
 ]
 
 # BSD doesn't get working shared folders, virtualbox and vmware
-unlovednodes = [
+nfsnodes = [
   { :host => 'freebsd10',  :box => 'freebsd-10.0-amd64-virtualbox.box', :ip => "10.0.1.2"},
   { :host => 'openbsd54',  :box => 'openbsd-5.4-amd64-virtualbox.box',  :ip => "10.0.1.3"},
   { :host => 'openbsd55',  :box => 'openbsd-5.5-amd64-virtualbox.box',  :ip => "10.0.1.4"},
@@ -23,6 +23,7 @@ unlovednodes = [
 ]
 
 Vagrant.configure(2) do |config|
+
   nodes.each do |node|
     config.ssh.insert_key = false
     config.vm.define node[:host] do |node_conf|
@@ -30,13 +31,12 @@ Vagrant.configure(2) do |config|
     end
   end
 
-  unlovednodes.each do |node|
+  nfsnodes.each do |nfsnode|
     config.ssh.insert_key = false
-    config.vm.network "private_network", ip: "10.0.1.10"
-    config.vm.synced_folder ".", "/vagrant", :nfs => true, id: "vagrant-root"
-    config.vm.define node[:host] do |node_conf|
-      node_conf.vm.box=node[:box]
-      node_conf.vm.network "private_network", ip: node[:ip]
+    config.vm.define nfsnode[:host] do |node_conf|
+      node_conf.vm.synced_folder ".", "/vagrant", :nfs => true, id: "vagrant-root"
+      node_conf.vm.box=nfsnode[:box]
+      node_conf.vm.network "private_network", ip: nfsnode[:ip]
     end
   end
 end
