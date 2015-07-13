@@ -27,7 +27,7 @@
       "disk_size": 10140,
       "boot_wait": "10s",
       "boot_command": [
-        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks.cfg<enter><wait>"
+        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks.cfg noapic<enter><wait>"
       ],
       "type": "virtualbox-iso",
       "headless": true,
