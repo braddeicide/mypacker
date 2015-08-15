@@ -16,7 +16,8 @@ nodes = [
 
 # BSD doesn't get working shared folders, virtualbox and vmware
 nfsnodes = [
-  { :host => 'freebsd10',  :box => 'freebsd-10.0-amd64-virtualbox.box', :ip => "10.0.1.2"},
+  { :host => 'freebsd100',  :box => 'freebsd-10.0-amd64-virtualbox.box', :ip => "10.0.1.2"},
+  { :host => 'freebsd102',  :box => 'freebsd-10.2-amd64-virtualbox.box', :ip => "10.0.1.3"},
   { :host => 'openbsd56',  :box => 'openbsd-5.6-amd64-virtualbox.box',  :ip => "10.0.1.5"},
   { :host => 'openbsd57',  :box => 'openbsd-5.7-amd64-virtualbox.box',  :ip => "10.0.1.6"},
 ]
