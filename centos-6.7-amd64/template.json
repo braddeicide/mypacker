@@ -1,0 +1,94 @@
+{
+  "provisioners": [
+    {
+      "scripts": [
+        "scripts/centos/base.sh",
+        "scripts/centos/chef.sh",
+        "scripts/centos/puppet.sh",
+        "scripts/centos/vagrant.sh",
+        "scripts/centos/virtualbox.sh",
+        "scripts/centos/cleanup.sh",
+        "scripts/centos/zerodisk.sh"
+      ],
+      "type": "shell",
+      "override": {
+        "virtualbox-iso": {
+          "execute_command": "echo 'veewee'|sudo -S sh '{{.Path}}'"
+        },
+        "vmware-iso": {
+          "execute_command": "echo 'veewee'|sudo -S sh '{{.Path}}'"
+        }
+      }
+    }
+  ],
+  "builders": [
+    {
+      "guest_os_type": "RedHat_64",
+      "disk_size": 10140,
+      "boot_wait": "10s",
+      "boot_command": [
+        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks.cfg noapic<enter><wait>"
+      ],
+      "type": "virtualbox-iso",
+      "headless": true,
+      "ssh_wait_timeout": "10000s",
+      "shutdown_command": "echo '/sbin/halt -h -p' > shutdown.sh; echo 'veewee'|sudo -S sh 'shutdown.sh'",
+      "vboxmanage": [
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--memory",
+          "480"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--cpus",
+          "1"
+        ]
+      ],
+      "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
+      "iso_url": "http://mirror.internode.on.net/pub/centos/6.7/isos/x86_64/CentOS-6.7-x86_64-minimal.iso",
+      "iso_checksum": "9d3fec5897be6b3fed4d3dda80b8fa7bb62c616bbfd4bdcd27295ca9b764f498",
+      "http_directory": "centos-6.7-amd64/http",
+      "output_directory": "packer-centos-6.7-amd64-virtualbox",
+      "vm_name": "packer-centos-6.7-amd64",
+      "virtualbox_version_file": ".vbox_version",
+      "iso_checksum_type": "sha256",
+      "ssh_port": 22,
+      "ssh_password": "veewee",
+      "ssh_username": "veewee"
+    },
+    {
+      "guest_os_type": "rhel6-64",
+      "disk_size": 10140,
+      "boot_wait": "10s",
+      "boot_command": [
+        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks.cfg<enter><wait>"
+      ],
+      "type": "vmware-iso",
+      "ssh_wait_timeout": "10000s",
+      "shutdown_command": "echo '/sbin/halt -h -p' > shutdown.sh; echo 'veewee'|sudo -S sh 'shutdown.sh'",
+      "iso_url": "http://mirror.internode.on.net/pub/centos/6.7/isos/x86_64/CentOS-6.7-x86_64-minimal.iso",
+      "vmx_data": {
+        "cpuid.coresPerSocket": "1",
+        "numvcpus": "1",
+        "memsize": "480"
+      },
+      "iso_checksum": "9d3fec5897be6b3fed4d3dda80b8fa7bb62c616bbfd4bdcd27295ca9b764f498",
+      "http_directory": "centos-6.7-amd64/http",
+      "iso_checksum_type": "sha256",
+      "ssh_port": 22,
+      "ssh_password": "veewee",
+      "ssh_username": "veewee",
+      "output_directory": "packer-centos-6.7-amd64-vmware",
+      "vm_name": "packer-centos-6.7-amd64"
+    }
+  ],
+  "post-processors": [
+    {
+      "output": "output/centos-6.7-amd64-{{.Provider}}.box",
+      "type": "vagrant"
+    }
+  ]
+}

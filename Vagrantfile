@@ -7,6 +7,7 @@
 nodes = [
   { :host => 'centos65',   :box => 'centos-6.5-amd64-virtualbox.box'  },
   { :host => 'centos66',   :box => 'centos-6.6-amd64-virtualbox.box'  },
+  { :host => 'centos67',   :box => 'centos-6.7-amd64-virtualbox.box'  },
   { :host => 'centos70',   :box => 'centos-7-amd64-virtualbox.box'    },
   { :host => 'ubuntu1204', :box => 'ubuntu-12-04-x64-virtualbox.box'  },
   { :host => 'ubuntu1404', :box => 'ubuntu-14-04-x64-virtualbox.box'  },
@@ -16,8 +17,6 @@ nodes = [
 # BSD doesn't get working shared folders, virtualbox and vmware
 nfsnodes = [
   { :host => 'freebsd10',  :box => 'freebsd-10.0-amd64-virtualbox.box', :ip => "10.0.1.2"},
-  { :host => 'openbsd54',  :box => 'openbsd-5.4-amd64-virtualbox.box',  :ip => "10.0.1.3"},
-  { :host => 'openbsd55',  :box => 'openbsd-5.5-amd64-virtualbox.box',  :ip => "10.0.1.4"},
   { :host => 'openbsd56',  :box => 'openbsd-5.6-amd64-virtualbox.box',  :ip => "10.0.1.5"},
   { :host => 'openbsd57',  :box => 'openbsd-5.7-amd64-virtualbox.box',  :ip => "10.0.1.6"},
 ]
@@ -33,6 +32,7 @@ Vagrant.configure(2) do |config|
 
   nfsnodes.each do |nfsnode|
     config.ssh.insert_key = false
+    config.ssh.shell = "sh"
     config.vm.define nfsnode[:host] do |node_conf|
       node_conf.vm.synced_folder ".", "/vagrant", :nfs => true, id: "vagrant-root"
       node_conf.vm.box=nfsnode[:box]
