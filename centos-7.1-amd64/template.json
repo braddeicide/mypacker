@@ -1,6 +1,12 @@
 {
+  "variables": {
+    "mirror": "http://mirror.internode.on.net/pub/"
+  },
   "provisioners": [
     {
+      "environment_vars": [
+        "MIRROR={{user `mirror`}}"
+      ],
       "scripts": [
         "scripts/centos/base.sh",
         "scripts/centos/puppet.sh",
@@ -12,10 +18,10 @@
       "type": "shell",
       "override": {
         "virtualbox-iso": {
-          "execute_command": "echo 'veewee'|sudo -S sh '{{.Path}}'"
+          "execute_command": "echo 'veewee'| {{ .Vars }} sudo -E -S sh '{{.Path}}'"
         },
         "vmware-iso": {
-          "execute_command": "echo 'veewee'|sudo -S sh '{{.Path}}'"
+          "execute_command": "echo 'veewee'| {{ .Vars }} sudo -E -S sh '{{.Path}}'"
         }
       }
     }
@@ -48,11 +54,11 @@
         ]
       ],
       "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
-      "iso_url": "http://mirror.internode.on.net/pub/centos/7/isos/x86_64/CentOS-7-x86_64-Minimal-1503-01.iso",
+      "iso_url": "{{user `mirror`}}centos/7/isos/x86_64/CentOS-7-x86_64-Minimal-1503-01.iso",
       "iso_checksum": "7cf1ac8da13f54d6be41e3ccf228dc5bb35792f515642755ff4780d5714d4278",
       "http_directory": "centos-7.1-amd64/http",
       "output_directory": "packer-centos-7.1-amd64-virtualbox",
-      "vm_name": "packer-centos-7-amd64",
+      "vm_name": "packer-centos-7.1-amd64",
       "virtualbox_version_file": ".vbox_version",
       "iso_checksum_type": "sha256",
       "ssh_port": 22,
@@ -70,7 +76,7 @@
       "type": "vmware-iso",
       "ssh_wait_timeout": "10000s",
       "shutdown_command": "echo '/sbin/halt -h -p' > shutdown.sh; echo 'veewee'|sudo -S sh 'shutdown.sh'",
-      "iso_url": "http://mirror.internode.on.net/pub/centos/7/isos/x86_64/CentOS-7-x86_64-Minimal-1503-01.iso",
+      "iso_url": "{{user `mirror`}}centos/7/isos/x86_64/CentOS-7-x86_64-Minimal-1503-01.iso",
       "vmx_data": {
         "cpuid.coresPerSocket": "1",
         "numvcpus": "1",
@@ -82,13 +88,13 @@
       "ssh_port": 22,
       "ssh_password": "veewee",
       "ssh_username": "veewee",
-      "output_directory": "packer-centos-7-amd64-vmware",
-      "vm_name": "packer-centos-7-amd64"
+      "output_directory": "packer-centos-7.1-amd64-vmware",
+      "vm_name": "packer-centos-7.1-amd64"
     }
   ],
   "post-processors": [
     {
-      "output": "output/centos-7-amd64-{{.Provider}}.box",
+      "output": "output/centos-7.1-amd64-{{.Provider}}.box",
       "type": "vagrant"
     }
   ]

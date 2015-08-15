@@ -1,6 +1,14 @@
 # Base install
 set -ue
 
+# Set mirror if's defined
+#if [ ! -z "$MIRROR" ]; then
+if [ ! -z ${MIRROR+x} ]; then
+  export QUOTEDMIRROR=$(echo $MIRROR | sed 's/\//\\\//g')
+  sed -i 's/#baseurl=http:\/\/mirror.centos.org\//baseurl='$QUOTEDMIRROR'/' /etc/yum.repos.d/CentOS-Base.repo 
+  sed -i 's/mirrorlist/#mirrorlist/' /etc/yum.repos.d/CentOS-Base.repo
+fi
+
 sed -i "s/^.*requiretty/#Defaults requiretty/" /etc/sudoers
 
 cat > /etc/yum.repos.d/epel.repo << EOM

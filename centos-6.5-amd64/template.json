@@ -1,4 +1,7 @@
 {
+  "variables": {
+    "mirror": "http://mirror.internode.on.net/pub/"
+  },
   "provisioners": [
     {
       "scripts": [
