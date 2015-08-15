@@ -8,7 +8,7 @@ nodes = [
   { :host => 'centos65',   :box => 'centos-6.5-amd64-virtualbox.box'  },
   { :host => 'centos66',   :box => 'centos-6.6-amd64-virtualbox.box'  },
   { :host => 'centos67',   :box => 'centos-6.7-amd64-virtualbox.box'  },
-  { :host => 'centos70',   :box => 'centos-7-amd64-virtualbox.box'    },
+  { :host => 'centos71',   :box => 'centos-7.1-amd64-virtualbox.box'    },
   { :host => 'ubuntu1204', :box => 'ubuntu-12-04-x64-virtualbox.box'  },
   { :host => 'ubuntu1404', :box => 'ubuntu-14-04-x64-virtualbox.box'  },
   { :host => 'ubuntu1410', :box => 'ubuntu-14-10-x64-virtualbox.box'  }
