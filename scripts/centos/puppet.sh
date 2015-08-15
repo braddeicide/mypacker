@@ -1,4 +1,5 @@
 # Install Puppet
+set -ue
 
 cat > /etc/yum.repos.d/puppetlabs.repo << EOM
 [puppetlabs-dependencies]

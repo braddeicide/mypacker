@@ -1,4 +1,6 @@
 # Vagrant specific
+set -ue
+
 date > /etc/vagrant_box_build_time
 
 # Add vagrant user

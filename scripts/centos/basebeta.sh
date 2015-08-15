@@ -1,4 +1,5 @@
 # Base install
+set -ue
 
 sed -i "s/^.*requiretty/#Defaults requiretty/" /etc/sudoers
 
