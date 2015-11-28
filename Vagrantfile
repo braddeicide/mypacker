@@ -11,7 +11,7 @@ nodes = [
   { :host => 'centos71',   :box => 'centos-7.1-amd64-virtualbox.box'  },
   { :host => 'ubuntu1204', :box => 'ubuntu-12-04-x64-virtualbox.box'  },
   { :host => 'ubuntu1404', :box => 'ubuntu-14-04-x64-virtualbox.box'  },
-  { :host => 'ubuntu1410', :box => 'ubuntu-14-10-x64-virtualbox.box'  },
+  { :host => 'ubuntu1510', :box => 'ubuntu-15-10-x64-virtualbox.box'  },
 ]
 
 # BSD doesn't get working shared folders, virtualbox and vmware
