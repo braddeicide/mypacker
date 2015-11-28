@@ -27,8 +27,10 @@ for PATCHZ in "${PATCHES[@]}"; do
   fi
 
   unzip $CACHE/$PATCH.zip $PATCH.xsupdate
+  rm -f $CACHE/$PATCH.zip
 
   PATCHUUID=$(xe patch-upload file-name=$CACHE/$PATCH.xsupdate);
+  rm -f $CACHE/$PATCH.xsupdate
   xe patch-apply uuid=${PATCHUUID} host-uuid=${INSTALLATION_UUID};
   xe patch-clean uuid=${PATCHUUID};
 

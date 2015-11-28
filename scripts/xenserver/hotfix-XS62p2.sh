@@ -7,17 +7,11 @@ CACHE=/tmp/xen
 
 PATCHES=(
 http://downloadns.citrix.com.edgesuite.net/9708/XS62ESP1014.zip
-http://downloadns.citrix.com.edgesuite.net/10134/XS62ESP1012.zip
-http://downloadns.citrix.com.edgesuite.net/10206/XS62ESP1019.zip
-http://downloadns.citrix.com.edgesuite.net/9617/XS62ESP1009.zip
 http://downloadns.citrix.com.edgesuite.net/10193/XS62ESP1017.zip
-http://downloadns.citrix.com.edgesuite.net/10325/XS62ESP1021.zip
-http://downloadns.citrix.com.edgesuite.net/10309/XS62ESP1020.zip
 http://downloadns.citrix.com.edgesuite.net/10567/XS62ESP1024.zip
-http://downloadns.citrix.com.edgesuite.net/10564/XS62ESP1025.zip
-http://downloadns.citrix.com.edgesuite.net/10596/XS62ESP1026.zip
-http://downloadns.citrix.com.edgesuite.net/10661/XS62ESP1027.zip
 http://downloadns.citrix.com.edgesuite.net/10654/XS62ESP1028.zip
+http://support.citrix.com/filedownload/CTX201739/XS62ESP1032.zip
+http://support.citrix.com/filedownload/CTX202617/XS62ESP1034.zip
 )
 
 # Set xen provided envs
@@ -34,8 +28,10 @@ for PATCHZ in "${PATCHES[@]}"; do
   fi
 
   unzip $CACHE/$PATCH.zip $PATCH.xsupdate
+  rm -f $CACHE/$PATCH.zip
 
   PATCHUUID=$(xe patch-upload file-name=$CACHE/$PATCH.xsupdate);
+  rm -f $CACHE/$PATCH.xsupdate
   xe patch-apply uuid=${PATCHUUID} host-uuid=${INSTALLATION_UUID};
   xe patch-clean uuid=${PATCHUUID};
 
