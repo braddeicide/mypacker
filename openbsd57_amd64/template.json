@@ -21,7 +21,7 @@
   "builders": [
     {
       "type": "virtualbox-iso",
-      "headless": true,
+      "headless": false,
       "boot_command": [
         "I<enter><wait>",
         "us<enter><wait>",
@@ -65,6 +65,8 @@
         "<wait><wait><wait><wait><wait><wait><wait>",
         "yes<enter><wait><wait>",
         "<wait><wait><wait><wait><wait><wait><wait>",
+	"Australia/Sydney<enter><wait>",
+	"yes<enter><wait>",
         "reboot<enter><wait>",
         "<wait><wait><wait><wait><wait><wait><wait>"
       ],
