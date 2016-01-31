@@ -18,8 +18,8 @@ nodes = [
 nfsnodes = [
   { :host => 'freebsd100',  :box => 'freebsd-10.0-amd64-virtualbox.box', :ip => "10.0.1.2"},
   { :host => 'freebsd102',  :box => 'freebsd-10.2-amd64-virtualbox.box', :ip => "10.0.1.3"},
-  { :host => 'openbsd56',   :box => 'openbsd-5.6-amd64-virtualbox.box',  :ip => "10.0.1.4"},
-  { :host => 'openbsd57',   :box => 'openbsd-5.7-amd64-virtualbox.box',  :ip => "10.0.1.5"},
+  { :host => 'openbsd57',   :box => 'openbsd-5.7-amd64-virtualbox.box',  :ip => "10.0.1.4"},
+  { :host => 'openbsd58',   :box => 'openbsd-5.8-amd64-virtualbox.box',  :ip => "10.0.1.5"},
   { :host => 'xenserver61', :box => 'XenServer61-virtualbox.box',        :ip => "10.0.1.6"},
   { :host => 'xenserver62', :box => 'XenServer62-virtualbox.box',        :ip => "10.0.1.7"},
   { :host => 'xenserver65', :box => 'XenServer65-virtualbox.box',        :ip => "10.0.1.8"},
