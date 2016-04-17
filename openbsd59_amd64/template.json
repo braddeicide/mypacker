@@ -1,0 +1,129 @@
+{
+  "variables": {
+    "openbsd_mirror": "http://mirror.internode.on.net/pub/OpenBSD",
+    "skip_ports": "yes"
+  },
+  "provisioners": [
+    {
+      "type": "shell",
+      "environment_vars": [
+        "OPENBSD_MIRROR={{user `openbsd_mirror`}}",
+        "SKIP_PORTS={{user `skip_ports`}}"
+      ],
+      "scripts": [
+        "openbsd59_amd64/scripts/base.sh",
+        "openbsd59_amd64/scripts/vagrant.sh",
+        "openbsd59_amd64/scripts/ruby.sh",
+        "openbsd59_amd64/scripts/puppet.sh"
+      ],
+      "override": {
+        "virtualbox-iso": {
+          "execute_command": "{{ .Vars }} sh '{{.Path}}'"
+        },
+        "vmware-iso": {
+          "execute_command": "{{ .Vars }} sh '{{.Path}}'"
+        }
+      }
+    }
+  ],
+  "builders": [
+    {
+      "type": "virtualbox-iso",
+      "headless": false,
+      "boot_command": [
+        "S<enter>",
+        "cat <<EOF >>install.conf<enter>",
+        "System hostname = openbsd59<enter>",
+        "Do you expect to run the X Window System = no<enter>",
+        "Password for root = vagrant<enter>",
+        "Setup a user = vagrant<enter>",
+        "Password for user = vagrant<enter>",
+        "Allow root ssh login = yes<enter>",
+        "What timezone are you in = Australia/Sydney<enter>",
+        "Location of sets = cd<enter>",
+        "Set name(s) = -game*.tgz -x*.tgz<enter>",
+        "Directory does not contain SHA256.sig. Continue without verification = yes<enter>",
+        "EOF<enter>",
+        "install -af install.conf && reboot<enter>"
+      ],
+      "boot_wait": "30s",
+      "disk_size": 40960,
+      "guest_os_type": "OpenBSD_64",
+      "iso_checksum": "685262fc665425c61a2952b2820389a2d331ac5558217080e6d564d2ce88eecb",
+      "iso_checksum_type": "sha256",
+      "iso_url": "http://mirror.internode.on.net/pub/OpenBSD/5.9/amd64/install59.iso",
+      "output_directory": "packer-openbsd59-amd64-virtualbox",
+      "vm_name": "packer-openbsd59-amd64",
+      "ssh_username": "root",
+      "ssh_password": "vagrant",
+      "ssh_port": 22,
+      "ssh_wait_timeout": "10000s",
+      "shutdown_command": "echo '/sbin/halt -p' > shutdown.sh; sh 'shutdown.sh'",
+      "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
+      "virtualbox_version_file": ".vbox_version",
+      "vboxmanage": [
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--memory",
+          "256"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--cpus",
+          "1"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--natdnsproxy1",
+          "on"
+        ]
+      ]
+    },
+    {
+      "type": "vmware-iso",
+      "boot_command": [
+        "S<enter>",
+        "cat <<EOF >>install.conf<enter>",
+        "System hostname = openbsd59<enter>",
+        "Do you expect to run the X Window System? = no",
+        "Password for root = vagrant<enter>",
+        "Setup a user = vagrant<enter>",
+        "Password for user = vagrant<enter>",
+        "Allow root ssh login = yes<enter>",
+        "What timezone are you in = Australia/Sydney<enter>",
+        "Location of sets = cd<enter>",
+        "Set name(s) = -game*.tgz -x*.tgz<enter>",
+        "Directory does not contain SHA256.sig. Continue without verification = yes<enter>",
+        "EOF<enter>",
+        "install -af install.conf && reboot<enter>"
+      ],
+      "boot_wait": "30s",
+      "disk_size": 40960,
+      "guest_os_type": "other-64",
+      "iso_checksum": "685262fc665425c61a2952b2820389a2d331ac5558217080e6d564d2ce88eecb",
+      "iso_checksum_type": "sha256",
+      "iso_url": "http://mirror.internode.on.net/pub/OpenBSD/5.9/amd64/install59.iso",
+      "ssh_username": "root",
+      "ssh_password": "vagrant",
+      "ssh_port": 22,
+      "ssh_wait_timeout": "10000s",
+      "output_directory": "packer-openbsd59-amd64-vmware",
+      "vm_name": "packer-openbsd59-amd64",
+      "shutdown_command": "echo '/sbin/halt -p' > shutdown.sh; sh 'shutdown.sh'",
+      "vmx_data": {
+        "memsize": "256",
+        "numvcpus": "1",
+        "cpuid.coresPerSocket": "1"
+      }
+    }
+  ],
+  "post-processors": [
+    {
+      "output": "output/openbsd-5.9-amd64-{{.Provider}}.box",
+      "type": "vagrant"
+    }
+  ]
+}
