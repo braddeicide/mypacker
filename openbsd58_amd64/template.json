@@ -105,7 +105,7 @@
       "guest_os_type": "other-64",
       "iso_checksum": "2edd369c4b5f1960f9c974ee7f7bbe4105137968c1542d37411e83cb79f7f6f2",
       "iso_checksum_type": "sha256",
-      "iso_url": "http://mirror.internode.on.net/pub/OpenBSD/5.7/amd64/install58.iso",
+      "iso_url": "http://mirror.internode.on.net/pub/OpenBSD/5.8/amd64/install58.iso",
       "ssh_username": "root",
       "ssh_password": "vagrant",
       "ssh_port": 22,
