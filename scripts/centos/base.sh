@@ -9,7 +9,7 @@ if [ ! -z ${MIRROR+x} ]; then
   sed -i 's/mirrorlist/#mirrorlist/' /etc/yum.repos.d/CentOS-Base.repo
 fi
 
-sed -i "s/^.*requiretty/#Defaults requiretty/" /etc/sudoers
+sed -i "s/^[a-z\s]*requiretty/#Defaults requiretty/" /etc/sudoers
 
 cat > /etc/yum.repos.d/epel.repo << EOM
 [epel]

@@ -15,12 +15,8 @@ yum -y install bzip2
 
 cd /tmp
 mount -o loop /home/veewee/VBoxGuestAdditions_$VBOX_VERSION.iso /mnt
-# Oracle has never heard of this CentOS things and every version is buggy 
-# Note, not sure why 7.1 is failing
-if egrep --quiet "6.5|6.6|6.7|7.1" /etc/redhat-release
-then
-  set +e
-fi
+# VBoxLinuxAdditions.run return codes are rubish, ignore errors :(  
+set +e
 sh /mnt/VBoxLinuxAdditions.run
 
 umount /mnt

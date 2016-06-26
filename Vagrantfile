@@ -5,8 +5,8 @@
 # inspired by https://github.com/patrickdlee/vagrant-examples/blob/master/example6/Vagrantfile
 
 nodes = [
-  { :host => 'centos67',   :box => 'centos-6.7-amd64-virtualbox.box'  },
-  { :host => 'centos71',   :box => 'centos-7.1-amd64-virtualbox.box'  },
+  { :host => 'centos68',   :box => 'centos-6.8-amd64-virtualbox.box'  },
+  { :host => 'centos72',   :box => 'centos-7.2-amd64-virtualbox.box'  },
   { :host => 'ubuntu1204', :box => 'ubuntu-12-04-x64-virtualbox.box'  },
   { :host => 'ubuntu1404', :box => 'ubuntu-14-04-x64-virtualbox.box'  },
   { :host => 'ubuntu1604', :box => 'ubuntu-16-04-x64-virtualbox.box'  },

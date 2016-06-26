@@ -6,7 +6,6 @@
     {
       "scripts": [
         "scripts/centos/base.sh",
-        "scripts/centos/chef.sh",
         "scripts/centos/puppet.sh",
         "scripts/centos/vagrant.sh",
         "scripts/centos/virtualbox.sh",
