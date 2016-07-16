@@ -22,6 +22,7 @@ nfsnodes = [
   { :host => 'xenserver61', :box => 'XenServer61-virtualbox.box',        :ip => "10.0.1.6"},
   { :host => 'xenserver62', :box => 'XenServer62-virtualbox.box',        :ip => "10.0.1.7"},
   { :host => 'xenserver65', :box => 'XenServer65-virtualbox.box',        :ip => "10.0.1.8"},
+  { :host => 'xenserver70', :box => 'XenServer70-virtualbox.box',        :ip => "10.0.1.11"},
 ]
 
 Vagrant.configure(2) do |config|
